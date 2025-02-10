@@ -190,11 +190,11 @@ class AndroidPlatform extends PlatformTarget {
 	
 	public override function install ():Void {
 		
-		var build = "-debug";
+		var build = "debug";
 		
 		if (project.keystore != null) {
 			
-			build = "-release";
+			build = "release";
 			
 		}
 		
@@ -202,15 +202,15 @@ class AndroidPlatform extends PlatformTarget {
 		
 		if (project.config.exists ("android.gradle-build-directory")) {
 			
-			outputDirectory = PathHelper.combine (project.config.getString ("android.gradle-build-directory"), project.app.file + "/app/outputs/apk");
+			outputDirectory = PathHelper.combine (project.config.getString ("android.gradle-build-directory"), project.app.file + "/app/outputs/apk/" + build);
 			
 		} else {
 			
-			outputDirectory = PathHelper.combine (FileSystem.fullPath (targetDirectory), "bin/app/build/outputs/apk");
+			outputDirectory = PathHelper.combine (FileSystem.fullPath (targetDirectory), "bin/app/build/outputs/apk/" + build);
 			
 		}
 		
-		var apkPath = PathHelper.combine (outputDirectory, project.app.file + build + ".apk");
+		var apkPath = PathHelper.combine (outputDirectory, project.app.file + "-" + build + ".apk");
 		
 		deviceID = AndroidHelper.install (project, apkPath, deviceID);
 		
